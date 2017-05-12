@@ -42,7 +42,10 @@ void Solve(double **A, double *x, int N)
 	double res = 0;
 	double **B = new double *[N];
 	for (i = 0; i<N; i++)
+	{
+		cout << "x =" << x[i] << " ";
 		B[i] = new double[N + 1];
+	} cout << endl;
 
 	triangMatr(A, B, N);
 	for (i = N - 1; i >= 0; i--)
@@ -52,10 +55,16 @@ void Solve(double **A, double *x, int N)
 			res -= x[j] * B[i][j];
 		res += B[i][N];
 		x[i] = res / B[i][i];
+
+		
 	}
-	for (i = 0; i<N; i++)
+	for (i = 0; i<N; i++)  
+	{
+		cout << "x =" << x[i] << " ";
 		delete[] B[i];
+	}
 	delete[]B;
+	cout << endl;
 }
 
 void OutputDescMatr(double** M, int n, int m)
@@ -99,8 +108,8 @@ void FillMatrix( /* Заполнение матрицы */
 			else {
 				M[i][j] = 0;
 			}
-
-		}
+			printf("%lf ", M[i][j]);
+		} printf("\n ");
 	}
 
 	for (int i = 0; i < N; i++)

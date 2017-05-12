@@ -6,11 +6,12 @@
 #include <math.h>
 #include <clocale>
 
+using namespace std;
 
 // TODO: 
 
 const double PI = atan(1.0) * 4; //Константа Pi
-const double G = 6.67300E-11; //Константа Гравитация
+const double G = 9.8; //Константа Гравитация
 
 double MaxVector(double *y, int length);
 void triangMatr(double** A, double **B, int N);
