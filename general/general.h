@@ -5,6 +5,8 @@
 #include <tchar.h>
 #include <math.h>
 #include <clocale>
+#include <fstream>
+
 
 using namespace std;
 

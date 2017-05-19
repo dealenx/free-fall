@@ -7,11 +7,12 @@ using namespace std;
 void main() {
 	setlocale(LC_CTYPE, "rus");
 
+
 	double a = 0; // Левая граница
-	double b; // Правая граница
+	double b; // Правая граница (конечное время)
 	
 
-	double yFirst; // Значение функции y(a)
+	double yFirst; // Значение функции y(a) или высота
 	double yLast = 0; // Значение функции y(b)
 
 	printf("Введите время: ");
@@ -34,12 +35,22 @@ void main() {
 	scanf_s("%d", &s);
 
 	
+
+	
 	int k = s - 1; // количество точек, не включая границы
 
 	long int n = s + 1; // Количество всех точек, включая границы
 	double h = (b - a) / s; // Шаг
 
 	double *y = new double[n];
+
+	double *time = new double[n];
+
+	for (int i = 0; i < n; i++) {
+		time[i] = i * (yFirst / s);
+		cout << "t = " << time[i] << endl;
+	}
+
 	y[0] = yFirst; y[s] = yLast;
 
 	const int N = k, M = s; // Размерность матрицы
@@ -93,8 +104,8 @@ void main() {
 
 	for (int i = 0; i < n; i++)
 	{
-		cout << "y[" << i << "] = " << y[i] << " ";
+		cout << "y[" << time[i] << "] = " << y[i] << " ";
 	}
-	//cout << "y = " << y[s];
+
 
 }

@@ -60,11 +60,9 @@ void Solve(double **A, double *x, int N)
 	}
 	for (i = 0; i<N; i++)  
 	{
-		cout << "x =" << x[i] << " ";
 		delete[] B[i];
 	}
 	delete[]B;
-	cout << endl;
 }
 
 void OutputDescMatr(double** M, int n, int m)
