@@ -43,7 +43,6 @@ void Solve(double **A, double *x, int N)
 	double **B = new double *[N];
 	for (i = 0; i<N; i++)
 	{
-		cout << "x =" << x[i] << " ";
 		B[i] = new double[N + 1];
 	} cout << endl;
 
@@ -106,8 +105,8 @@ void FillMatrix( /* Заполнение матрицы */
 			else {
 				M[i][j] = 0;
 			}
-			printf("%lf ", M[i][j]);
-		} printf("\n ");
+			//printf("%lf ", M[i][j]);
+		} //printf("\n ");
 	}
 
 	for (int i = 0; i < N; i++)

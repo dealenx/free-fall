@@ -58,8 +58,8 @@ void main() {
 	double *time = new double[n];
 
 	for (int i = 0; i < n; i++) {
-		time[i] = i * (yFirst / s);
-		cout << "t = " << time[i] << endl;
+		time[i] = i * (b / s);
+		//cout << "t = " << time[i] << endl;
 	}
 
 	y[0] = yFirst; y[s] = yLast;
@@ -112,11 +112,11 @@ void main() {
 	}
 
 
-
+	/*
 	for (int i = 0; i < n; i++)
 	{
 		cout << "y[" << time[i] << "] = " << y[i] << " ";
-	}
+	}*/
 	for (int i = 0; i < n; i++)
 	{
 		j["time"][i] = time[i];
@@ -127,7 +127,7 @@ void main() {
 	fout << "data = '" << j << "';"; // запись строки в файл
 	fout.close(); // закрываем файл
 
-	cout << j;
+	//cout << j;
 
 
 }
