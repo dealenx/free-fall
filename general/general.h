@@ -6,6 +6,7 @@
 #include <math.h>
 #include <clocale>
 #include <fstream>
+#include <fstream>
 
 
 using namespace std;

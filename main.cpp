@@ -1,12 +1,23 @@
 ﻿#include "./general/general.h"
+#include "./headers/json.hpp"
+
 
 using namespace std;
+using json = nlohmann::json;
 
 
 
 void main() {
 	setlocale(LC_CTYPE, "rus");
+	
+	json j;
+	/*
+	j["name"] = "Habrahabr";
+	j["nothing"] = nullptr;
+	j["answer"]["everything"] = 42;
 
+	cout << j << endl;
+	*/
 
 	double a = 0; // Левая граница
 	double b; // Правая граница (конечное время)
@@ -106,6 +117,17 @@ void main() {
 	{
 		cout << "y[" << time[i] << "] = " << y[i] << " ";
 	}
+	for (int i = 0; i < n; i++)
+	{
+		j["time"][i] = time[i];
+		j["y"][i] = y[i];
+	}
+
+	ofstream fout("data.json"); // создаём объект класса ofstream для записи и связываем его с файлом cppstudio.txt
+	fout << "data = '" << j << "';"; // запись строки в файл
+	fout.close(); // закрываем файл
+
+	cout << j;
 
 
 }
