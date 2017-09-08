@@ -9,15 +9,9 @@ using json = nlohmann::json;
 
 void main() {
 	setlocale(LC_CTYPE, "rus");
+
 	
 	json j;
-	/*
-	j["name"] = "Habrahabr";
-	j["nothing"] = nullptr;
-	j["answer"]["everything"] = 42;
-
-	cout << j << endl;
-	*/
 
 	double a = 0; // Левая граница
 	double b; // Правая граница (конечное время)
@@ -83,11 +77,11 @@ void main() {
 
 		if (i == 0)
 		{
-			f[i] = ( G * (-1) ) - ( y[0] / (h * h) ) + ( (y[0] * k) / (2 * h) );
+			f[i] = ( G * (-1) ) + (( ((koef * h) - 1) / (2*h*h)  ) * y[0]);
 		}
 		if (i == n - 1)
 		{
-			f[i] = (G * (-1)) - (y[s] / (h * h)) + ((y[s] * k) / (2 * h));
+			f[i] = (G * (-1)) - ((((koef * h) + 1) / (2 * h*h))* y[s]);
 		}
 	}
 
@@ -99,7 +93,12 @@ void main() {
 	}
 
 	printf("Заполнение матрицы . . . \n");
+	cout << "h = " << h << endl;
+	cout << "a = " << a << " b = " << b << endl;
+	cout << "yFirst = " << yFirst << " yLast = " << yLast << endl;
+
 	FillMatrix(A, f, h, N, koef);
+	OutputDescMatr(A, N, M);
 
 	double *yy = new double[k];
 
