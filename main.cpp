@@ -25,7 +25,7 @@ void main() {
 
 	printf("\n");
 	 
-	printf("Введите высоту: ", a);
+	printf("Введите высоту: ");
 	scanf_s("%lf", &yFirst);
 
 	double koef; // Коэффициент
@@ -38,16 +38,20 @@ void main() {
 
 	printf("Введите количество сегментов: ");
 	scanf_s("%d", &s);
-
-	
-
 	
 	int k = s - 1; // количество точек, не включая границы
 
 	long int n = s + 1; // Количество всех точек, включая границы
 	double h = (b - a) / s; // Шаг
+	cout << "h = " << h << " b = " << b << "a = " << a << endl;
 
 	double *y = new double[n];
+
+	double *yt = new double[n];
+
+
+	double C1 = ( G * b) - (yFirst / b);
+	double C2 = yFirst;
 
 	double *time = new double[n];
 
@@ -57,15 +61,21 @@ void main() {
 	}
 
 	y[0] = yFirst; y[s] = yLast;
+	yt[0] = yFirst; yt[s] = yLast;
+
+	for (int i = 1; i < n - 1; i++)
+	{
+		yt[i] = (G * (-1) * time[i] * time[i]) + (C1 * time[i]) + C2;
+	}
 
 	const int N = k, M = s; // Размерность матрицы
+	double *approx = new double[N]; // Для аппроксимации
 
 	double *x = new double[n];
 
 	for (int i = 0; i < n; i++)
 	{
 		x[i] = a + (i*h);
-		//printf("x[%d]=%g ", i, x[i]);
 	}
 	printf("\n");
 
@@ -77,11 +87,11 @@ void main() {
 
 		if (i == 0)
 		{
-			f[i] = ( G * (-1) ) + (( ((koef * h) - 1) / (2*h*h)  ) * y[0]);
+			f[i] = (G * (-1)) + ( (koef*y[0]) /(2*h) ) - ( y[0]/(h*h) ) ;
 		}
 		if (i == n - 1)
 		{
-			f[i] = (G * (-1)) - ((((koef * h) + 1) / (2 * h*h))* y[s]);
+			f[i] = (G * (-1));
 		}
 	}
 
@@ -98,6 +108,9 @@ void main() {
 	cout << "yFirst = " << yFirst << " yLast = " << yLast << endl;
 
 	FillMatrix(A, f, h, N, koef);
+	checkFillMatrix(A, yt, f, approx, N);
+
+
 	OutputDescMatr(A, N, M);
 
 	double *yy = new double[k];
@@ -111,22 +124,26 @@ void main() {
 	}
 
 
-	/*
+	
 	for (int i = 0; i < n; i++)
 	{
 		cout << "y[" << time[i] << "] = " << y[i] << " ";
-	}*/
+	}
+
+	
 	for (int i = 0; i < n; i++)
 	{
 		j["time"][i] = time[i];
 		j["y"][i] = y[i];
+		j["yt"][i] = yt[i];
 	}
+
 
 	ofstream fout("data.json"); // создаём объект класса ofstream для записи и связываем его с файлом cppstudio.txt
 	fout << "data = '" << j << "';"; // запись строки в файл
 	fout.close(); // закрываем файл
 
-	//cout << j;
+	cout << j;
 
 
 }

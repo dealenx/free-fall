@@ -14,7 +14,7 @@ using namespace std;
 // TODO: 
 
 const double PI = atan(1.0) * 4; //Константа Pi
-const double G = 9.8; //Константа Гравитация
+const double G = 9.81; //Константа Ускорение свободного падения
 
 double MaxVector(double *y, int length);
 void triangMatr(double** A, double **B, int N);
@@ -35,3 +35,5 @@ void GeneralFunc
 	double yLast, // Значение функции y(b)
 	int s // Количество сегментов
 );
+void calcMultMatrixVectore(double **A, double *B, double *C, int N, int M);
+void checkFillMatrix(double **A, double *y, double *f, double * approx, int N);

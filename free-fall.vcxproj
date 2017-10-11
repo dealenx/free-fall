@@ -156,6 +156,8 @@
   <ItemGroup>
     <None Include="data.json" />
     <None Include="index.html" />
+    <None Include="js\Chart.min.js" />
+    <None Include="js\jquery-3.2.1.min.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

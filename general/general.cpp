@@ -1,5 +1,7 @@
 ﻿#include "../general/general.h"
 
+using namespace std;
+
 // TODO:
 
 double MaxVector(double *y, int length) 
@@ -20,7 +22,7 @@ double MaxVector(double *y, int length)
 void triangMatr(double** A, double **B, int N)
 {
 	int i, j, k;
-	float koef;
+	double koef;
 	for (i = 0; i<N; i++)
 		for (j = 0; j<N + 1; j++)
 			B[i][j] = A[i][j];
@@ -54,6 +56,7 @@ void Solve(double **A, double *x, int N)
 			res -= x[j] * B[i][j];
 		res += B[i][N];
 		x[i] = res / B[i][i];
+		cout << "x[ " << i << "] =" <<  x[i] << endl;
 
 		
 	}
@@ -92,7 +95,7 @@ void FillMatrix( /* Заполнение матрицы */
 
 			if (i == j)
 			{
-				M[i][j] = (-2) / (h*h);
+				M[i][j] = ( (-1) * (2)) / (h*h);
 			}
 			else if (j == i + 1)
 			{
@@ -125,4 +128,31 @@ void GeneralFunc
 )
 {
 	
+}
+void calcMultMatrixVectore(double **A, double *B, double *C, int N, int M) {
+
+	for (int ix = 0; ix < N; ix++)
+	{
+		C[ix] = 0;
+		for (int jx = 0; jx < M; jx++)
+			C[ix] += A[ix][jx] * B[jx];
+	}
+}
+
+void checkFillMatrix(double **A, double *y, double *f, double * approx, int N) {
+	double *ny = new double[N]; //для матрицы 
+	for (int i = 0; i < N; i++)
+	{
+		ny[i] = y[i + 1];
+	}
+	
+	double *C = new double[N]; // вектор, результатом где является матрица умноженная на точное решение
+	calcMultMatrixVectore(A, ny, C, N, N);
+	for (int i = 0; i < N; i++)
+	{
+		ny[i] = y[i + 1];
+		approx[i] = fabs(C[i] - f[i]);
+		cout << "A*yt = " << C[i] << " f = " << f[i] << " aprox = " << approx[i] << endl;
+	}
+
 }
