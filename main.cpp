@@ -118,6 +118,9 @@ void main() {
 	printf("Решение метода Гаусса . . . \n");
 	Solve(A, yy, N);
 
+	//A*yy-f
+
+
 	for (int i = 0; i < N; i++)
 	{
 		y[i + 1] = yy[i];
