@@ -43,11 +43,16 @@ void main() {
 
 	long int n = s + 1; // Количество всех точек, включая границы
 	double h = (b - a) / s; // Шаг
+	const int N = k, M = s; // Размерность матрицы
+
 	cout << "h = " << h << " b = " << b << "a = " << a << endl;
 
-	double *y = new double[n];
+	double *y_full = new double[n]; // полный y(численное решение)-вектор
+	double *y_forMatrix = new double[k]; // y(численное решение)-вектор для умножения матрицы
 
-	double *yt = new double[n];
+
+	double *yt_full = new double[n];  // полный y(точное решение)-вектор
+	double *yt_forMatrix = new double[k];  // y(точное решение)-вектор для матрицы
 
 
 	double C1 = ( G * b) - (yFirst / b);
@@ -60,15 +65,18 @@ void main() {
 		//cout << "t = " << time[i] << endl;
 	}
 
-	y[0] = yFirst; y[s] = yLast;
-	yt[0] = yFirst; yt[s] = yLast;
+	y_full[0] = yFirst; y_full[s] = yLast;
 
 	for (int i = 1; i < n - 1; i++)
 	{
-		yt[i] = (G * (-1) * time[i] * time[i]) + (C1 * time[i]) + C2;
+		yt_full[i] = (G * (-1) * time[i] * time[i]) + (C1 * time[i]) + C2;
+	}
+	for (int i = 0; i < k; i++)
+	{
+		yt_forMatrix[i] = yt_full[i+1];
 	}
 
-	const int N = k, M = s; // Размерность матрицы
+	
 	double *approx = new double[N]; // Для аппроксимации
 
 	double *x = new double[n];
@@ -87,7 +95,7 @@ void main() {
 
 		if (i == 0)
 		{
-			f[i] = (G * (-1)) + ( (koef*y[0]) /(2*h) ) - ( y[0]/(h*h) ) ;
+			f[i] = (G * (-1)) + ( (koef*y_full[0]) /(2*h) ) - ( y_full[0]/(h*h) ) ;
 		}
 		if (i == n - 1)
 		{
@@ -108,37 +116,34 @@ void main() {
 	cout << "yFirst = " << yFirst << " yLast = " << yLast << endl;
 
 	FillMatrix(A, f, h, N, koef);
-	checkFillMatrix(A, yt, f, approx, N);
-
-
-	OutputDescMatr(A, N, M);
-
-	double *yy = new double[k];
+	
 
 	printf("Решение метода Гаусса . . . \n");
-	Solve(A, yy, N);
-
+	Solve(A, y_forMatrix, N);
+	OutputDescMatr(A, N, M);
 	//A*yy-f
 
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i < k; i++)
 	{
-		y[i + 1] = yy[i];
+		y_full[i + 1] = y_forMatrix[i];
 	}
 
-
-	
+	cout << "Проверка численного решения" << endl;
+	checkFillMatrix(A, y_forMatrix, f, approx, N);
+	cout << "Проверка точного решения" << endl;
+	checkFillMatrix(A, yt_forMatrix, f, approx, N);
 	for (int i = 0; i < n; i++)
 	{
-		cout << "y[" << time[i] << "] = " << y[i] << " ";
+		cout << "y[" << time[i] << "] = " << y_full[i] << " ";
 	}
 
 	
 	for (int i = 0; i < n; i++)
 	{
 		j["time"][i] = time[i];
-		j["y"][i] = y[i];
-		j["yt"][i] = yt[i];
+		j["y"][i] = y_full[i];
+		j["yt"][i] = yt_full[i];
 	}
 
 

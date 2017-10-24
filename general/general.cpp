@@ -91,8 +91,6 @@ void FillMatrix( /* Заполнение матрицы */
 	{
 		for (int j = 0; j < N; j++)
 		{
-
-
 			if (i == j)
 			{
 				M[i][j] = ( (-1) * (2)) / (h*h);
@@ -117,18 +115,6 @@ void FillMatrix( /* Заполнение матрицы */
 		M[i][N] = f[i];
 	}
 }
-
-void GeneralFunc
-(	
-	double a, // Левая граница
-	double b, // Правая граница
-	double yFirst,  // Значение функции y(a)
-	double yLast, // Значение функции y(b)
-	 int s // Количество сегментов
-)
-{
-	
-}
 void calcMultMatrixVectore(double **A, double *B, double *C, int N, int M) {
 
 	for (int ix = 0; ix < N; ix++)
@@ -139,20 +125,14 @@ void calcMultMatrixVectore(double **A, double *B, double *C, int N, int M) {
 	}
 }
 
-void checkFillMatrix(double **A, double *y, double *f, double * approx, int N) {
-	double *ny = new double[N]; //для матрицы 
-	for (int i = 0; i < N; i++)
-	{
-		ny[i] = y[i + 1];
-	}
+void checkFillMatrix(double **A, double *y, double *f, double * result, int N) {
 	
 	double *C = new double[N]; // вектор, результатом где является матрица умноженная на точное решение
-	calcMultMatrixVectore(A, ny, C, N, N);
+	calcMultMatrixVectore(A, y, C, N, N);
 	for (int i = 0; i < N; i++)
 	{
-		ny[i] = y[i + 1];
-		approx[i] = fabs(C[i] - f[i]);
-		cout << "A*yt = " << C[i] << " f = " << f[i] << " aprox = " << approx[i] << endl;
+		result[i] = fabs(C[i] - f[i]);
+		cout << "A*y( " << C[i] << " ) -  f ( " << f[i] << ") = result( " << result[i] << " ) " << endl;
 	}
 
 }
