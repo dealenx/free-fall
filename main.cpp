@@ -66,6 +66,7 @@ void main() {
 	}
 
 	y_full[0] = yFirst; y_full[s] = yLast;
+	yt_full[0] = yFirst; yt_full[s] = yLast;
 
 	for (int i = 1; i < n - 1; i++)
 	{

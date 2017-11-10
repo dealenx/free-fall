@@ -56,9 +56,6 @@ void Solve(double **A, double *x, int N)
 			res -= x[j] * B[i][j];
 		res += B[i][N];
 		x[i] = res / B[i][i];
-		cout << "x[ " << i << "] =" <<  x[i] << endl;
-
-		
 	}
 	for (i = 0; i<N; i++)  
 	{
