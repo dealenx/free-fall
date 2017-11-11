@@ -5,27 +5,23 @@
 #include <tchar.h>
 #include <math.h>
 #include <clocale>
-#include <fstream>
-#include <fstream>
-
 
 using namespace std;
+
 
 // TODO: 
 
 const double PI = atan(1.0) * 4; //Константа Pi
-const double G = 9.8; //Константа Гравитация
 
 double MaxVector(double *y, int length);
 void triangMatr(double** A, double **B, int N);
 void Solve(double **A, double *x, int N);
 void OutputDescMatr(double** M, int n, int m);
 void FillMatrix(
-	double **M, //Матрица
-	double *f, //заполнения массива f(i)
-	double h, // Шаг
-	int N,
-	double koef // коэффициент
+	double **M, 
+	double *f, 
+	double h, 
+	int N
 );
 void GeneralFunc
 (

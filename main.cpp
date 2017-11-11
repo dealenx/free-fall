@@ -1,61 +1,43 @@
 ﻿#include "./general/general.h"
-#include "./headers/json.hpp"
-
 
 using namespace std;
-using json = nlohmann::json;
-
-
 
 void main() {
 	setlocale(LC_CTYPE, "rus");
 
-	
-	json j;
+	//y = sin(PI*x)
+	//y'' = (-1)*(PI)*(PI)*sin(PI*x)
 
-	double a = 0; // Левая граница
-	double b; // Правая граница (конечное время)
-	
-
-	double yFirst; // Значение функции y(a) или высота
-	double yLast = 0; // Значение функции y(b)
-
-	printf("Введите время: ");
-	scanf_s("%lf", &b);
-
-	printf("\n");
-	 
-	printf("Введите высоту: ", a);
-	scanf_s("%lf", &yFirst);
-
-	double koef; // Коэффициент
-
-	printf("Введите коэффициент: ");
-	scanf_s("%lf", &koef);
-	
-
+	double a; // Левая граница
+	double b; // Правая граница
 	int s; // Количество сегментов
 
-	printf("Введите количество сегментов: ");
+
+	double yFirst; // Значение функции y(a)
+	double yLast; // Значение функции y(b)
+
+	printf("y'' = ((-1)*(PI)^2)*sin(PI*x) \n");
+
+	printf("Введите границы [a;b] в формате 'a b': ");
+	scanf_s("%lf %lf", &a, &b);
+
+	printf("\n");
+
+	printf("Введите y(%g): ", a);//ФЫ
+	scanf_s("%lf", &yFirst);
+
+	printf("Введите y(%g): ", b);
+	scanf_s("%lf", &yLast);
+
+	printf("Введите количество сегментов для s: ");
 	scanf_s("%d", &s);
 
-	
-
-	
 	int k = s - 1; // количество точек, не включая границы
 
 	long int n = s + 1; // Количество всех точек, включая границы
 	double h = (b - a) / s; // Шаг
 
 	double *y = new double[n];
-
-	double *time = new double[n];
-
-	for (int i = 0; i < n; i++) {
-		time[i] = i * (b / s);
-		//cout << "t = " << time[i] << endl;
-	}
-
 	y[0] = yFirst; y[s] = yLast;
 
 	const int N = k, M = s; // Размерность матрицы
@@ -73,15 +55,15 @@ void main() {
 
 	for (int i = 0; i < n; i++)
 	{
-		f[i] = G * (-1);
+		f[i] = ((PI)*(PI)*sin(PI * x[i + 1])) * (-1);
 
 		if (i == 0)
 		{
-			f[i] = ( G * (-1) ) + (( ((koef * h) - 1) / (2*h*h)  ) * y[0]);
+			f[i] = f[i] - y[0];
 		}
 		if (i == n - 1)
 		{
-			f[i] = (G * (-1)) - ((((koef * h) + 1) / (2 * h*h))* y[s]);
+			f[i] = f[i] - y[s];
 		}
 	}
 
@@ -93,11 +75,7 @@ void main() {
 	}
 
 	printf("Заполнение матрицы . . . \n");
-	cout << "h = " << h << endl;
-	cout << "a = " << a << " b = " << b << endl;
-	cout << "yFirst = " << yFirst << " yLast = " << yLast << endl;
-
-	FillMatrix(A, f, h, N, koef);
+	FillMatrix(A, f, h, N);
 	OutputDescMatr(A, N, M);
 
 	double *yy = new double[k];
@@ -110,23 +88,25 @@ void main() {
 		y[i + 1] = yy[i];
 	}
 
+	// Теоритическая 'y'
+	double *yTheoretical = new double[n];
 
-	/*
 	for (int i = 0; i < n; i++)
 	{
-		cout << "y[" << time[i] << "] = " << y[i] << " ";
-	}*/
-	for (int i = 0; i < n; i++)
-	{
-		j["time"][i] = time[i];
-		j["y"][i] = y[i];
+		yTheoretical[i] = sin(PI*x[i]);
 	}
 
-	ofstream fout("data.json"); // создаём объект класса ofstream для записи и связываем его с файлом cppstudio.txt
-	fout << "data = '" << j << "';"; // запись строки в файл
-	fout.close(); // закрываем файл
+	// Дельта 'y'
+	double *yDelta = new double[n];
+	for (int i = 0; i < n; i++)
+	{
+		cout << y[i] << " " << yTheoretical[i] << endl;
+	}
 
-	//cout << j;
+	for (int i = 0; i < n; i++)
+	{
+		yDelta[i] = abs(abs(y[i]) - abs(yTheoretical[i]));
+	}
 
-
+	printf("\n Шаг: %lf , Дельта 'y' максимальное: %lf \n", h, MaxVector(yDelta, n));
 }

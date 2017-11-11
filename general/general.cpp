@@ -42,9 +42,7 @@ void Solve(double **A, double *x, int N)
 	double res = 0;
 	double **B = new double *[N];
 	for (i = 0; i<N; i++)
-	{
 		B[i] = new double[N + 1];
-	} cout << endl;
 
 	triangMatr(A, B, N);
 	for (i = N - 1; i >= 0; i--)
@@ -54,10 +52,8 @@ void Solve(double **A, double *x, int N)
 			res -= x[j] * B[i][j];
 		res += B[i][N];
 		x[i] = res / B[i][i];
-
-		
 	}
-	for (i = 0; i<N; i++)  
+	for (i = 0; i<N; i++)
 	{
 		delete[] B[i];
 	}
@@ -80,8 +76,7 @@ void FillMatrix( /* Заполнение матрицы */
 	double **M, //Матрица
 	double *f, //заполнения массива f(i)
 	double h, // Шаг
-	int N,
-	double koef // коэффициент
+	int N
 )
 {
 	for (int i = 0; i < N; i++)
@@ -92,21 +87,21 @@ void FillMatrix( /* Заполнение матрицы */
 
 			if (i == j)
 			{
-				M[i][j] = (-2) / (h*h);
+				M[i][j] = -2 / (h*h);
 			}
 			else if (j == i + 1)
 			{
-				M[i][j] = (1 / (h*h)) + (koef / (2 * h));
+				M[i][j] = 1 / (h*h);
 			}
 			else if (i == j + 1)
 			{
-				M[i][j] = (1 / (h*h)) - (koef / (2 * h));
+				M[i][j] = 1 / (h*h);
 			}
 			else {
 				M[i][j] = 0;
 			}
-			//printf("%lf ", M[i][j]);
-		} //printf("\n ");
+
+		}
 	}
 
 	for (int i = 0; i < N; i++)
