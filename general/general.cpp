@@ -87,15 +87,15 @@ void FillMatrix( /* Заполнение матрицы */
 
 			if (i == j)
 			{
-				M[i][j] = -2 / (h*h);
+				M[i][j] = ((-1) * (2)) / (h*h);
 			}
 			else if (j == i + 1)
 			{
-				M[i][j] = 1 / (h*h);
+				M[i][j] = (1 / (h*h));
 			}
 			else if (i == j + 1)
 			{
-				M[i][j] = 1 / (h*h);
+				M[i][j] = (1 / (h*h));
 			}
 			else {
 				M[i][j] = 0;

@@ -1,9 +1,14 @@
 ﻿#include "./general/general.h"
+#include "./headers/json.hpp"
+
 
 using namespace std;
+using json = nlohmann::json;
 
 void main() {
 	setlocale(LC_CTYPE, "rus");
+
+	json j;
 
 	//y = sin(PI*x)
 	//y'' = -G
@@ -12,33 +17,29 @@ void main() {
 	double T; // Правая граница
 	int s; // Количество сегментов
 
-
-	double yFirst; // Значение функции y(a)
-	double yLast; // Значение функции y(b)
-
 	printf("y'' = ((-1)*(PI)^2)*sin(PI*x) \n");
 
-	printf("Введите границы [a;b] в формате 'a b': ");
-	scanf_s("%lf %lf", &a, &T);
-
-	printf("\n");
-
-	printf("Введите y(%g): ", a);//ФЫ
-	scanf_s("%lf", &yFirst);
-
-	printf("Введите y(%g): ", T);
-	scanf_s("%lf", &yLast);
-
-	printf("Введите количество сегментов для s: ");
+	printf("Введите количество сегментов: ");
 	scanf_s("%d", &s);
 
 	int k = s - 1; // количество точек, не включая границы
 
 	long int n = s + 1; // Количество всех точек, включая границы
-	double h = (T - a) / s; // Шаг
 
 	double *y = new double[n];
-	y[0] = yFirst; y[s] = yLast;
+
+	y[s] = 0; // Значение функции y(b) или когда тело уже упало на землю
+
+
+	cout << "Введите время: ";
+	cin >> T;
+
+	double h = (T - a) / s; // Шаг
+
+	cout << endl << "Введите y(" << a << ") (значение высоты): ";
+	cin >> y[0]; // Значение функции y(a) или высота H
+	
+	double *time = new double[n];
 
 	const int N = k, M = s; // Размерность матрицы
 
@@ -47,26 +48,24 @@ void main() {
 	for (int i = 0; i < n; i++)
 	{
 		x[i] = a + (i*h);
-		//printf("x[%d]=%g ", i, x[i]);
+	}
+
+	for (int i = 0; i < n; i++) {
+		time[i] = i * (T / s);
 	}
 	printf("\n");
 
 	double *f = new double[s];
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < k; i++)
 	{
-		f[i] = ((PI)*(PI)*sin(PI * x[i + 1])) * (-1);
+		f[i] = G * (-1);
 
 		if (i == 0)
 		{
-			f[i] = f[i] - y[0];
-		}
-		if (i == n - 1)
-		{
-			f[i] = f[i] - y[s];
+			f[i] = (G * (-1)) - (y[0] / (h*h));
 		}
 	}
-
 
 	double** A = new double*[N];
 	for (int i = 0; i < N; i++)
@@ -83,30 +82,48 @@ void main() {
 	printf("Решение метода Гаусса . . . \n");
 	Solve(A, yy, N);
 
-	for (int i = 0; i < N; i++)
+	for (int i = 0; i < k; i++)
 	{
 		y[i + 1] = yy[i];
 	}
 
-	// Теоритическая 'y'
-	double *yTheoretical = new double[n];
+	double C1 = (((G*T*T) / 2) - y[0]) / T;
+	double C2 = y[0];
+
+	double *yt = new double[n]; // Теоритическая 'y'
 
 	for (int i = 0; i < n; i++)
 	{
-		yTheoretical[i] = sin(PI*x[i]);
+		yt[i] = ((-1)*((G*time[i] * time[i]) / 2)) + C1*time[i] + C2;
 	}
 
-	// Дельта 'y'
-	double *yDelta = new double[n];
-	for (int i = 0; i < n; i++)
-	{
-		cout << y[i] << " " << yTheoretical[i] << endl;
-	}
+	cout << endl;
+	double *yDelta = new double[n]; // Практическая погрешность
 
 	for (int i = 0; i < n; i++)
 	{
-		yDelta[i] = abs(abs(y[i]) - abs(yTheoretical[i]));
+		yDelta[i] = abs(abs(y[i]) - abs(yt[i]));
 	}
-
+	cout << endl;
 	printf("\n Шаг: %lf , Дельта 'y' максимальное: %lf \n", h, MaxVector(yDelta, n));
+
+	for (int i = 0; i < n; i++)
+	{
+		cout << "y[" << time[i] << "] = " << y[i] << " " << "yt[" << time[i] << "] = " << yt[i] << " ";
+	}
+
+
+	for (int i = 0; i < n; i++)
+	{
+		j["time"][i] = time[i];
+		j["y"][i] = y[i];
+		j["yt"][i] = yt[i];
+	}
+
+
+	ofstream fout("data.json"); // создаём объект класса ofstream для записи и связываем его с файлом cppstudio.txt
+	fout << "data = '" << j << "';"; // запись строки в файл
+	fout.close(); // закрываем файл
+
+	cout << j;
 }

@@ -5,6 +5,7 @@
 #include <tchar.h>
 #include <math.h>
 #include <clocale>
+#include <fstream>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ using namespace std;
 // TODO: 
 
 const double PI = atan(1.0) * 4; //Константа Pi
+const double G = 9.81; //Константа Ускорения свободного падения
 
 double MaxVector(double *y, int length);
 void triangMatr(double** A, double **B, int N);
