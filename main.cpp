@@ -6,10 +6,10 @@ void main() {
 	setlocale(LC_CTYPE, "rus");
 
 	//y = sin(PI*x)
-	//y'' = (-1)*(PI)*(PI)*sin(PI*x)
+	//y'' = -G
 
-	double a; // Левая граница
-	double b; // Правая граница
+	double a = 0; // Левая граница
+	double T; // Правая граница
 	int s; // Количество сегментов
 
 
@@ -19,14 +19,14 @@ void main() {
 	printf("y'' = ((-1)*(PI)^2)*sin(PI*x) \n");
 
 	printf("Введите границы [a;b] в формате 'a b': ");
-	scanf_s("%lf %lf", &a, &b);
+	scanf_s("%lf %lf", &a, &T);
 
 	printf("\n");
 
 	printf("Введите y(%g): ", a);//ФЫ
 	scanf_s("%lf", &yFirst);
 
-	printf("Введите y(%g): ", b);
+	printf("Введите y(%g): ", T);
 	scanf_s("%lf", &yLast);
 
 	printf("Введите количество сегментов для s: ");
@@ -35,7 +35,7 @@ void main() {
 	int k = s - 1; // количество точек, не включая границы
 
 	long int n = s + 1; // Количество всех точек, включая границы
-	double h = (b - a) / s; // Шаг
+	double h = (T - a) / s; // Шаг
 
 	double *y = new double[n];
 	y[0] = yFirst; y[s] = yLast;
