@@ -15,9 +15,12 @@ void main() {
 
 	double a = 0; // Левая граница
 	double T; // Правая граница
+
 	int s; // Количество сегментов
 
-	printf("y'' = ((-1)*(PI)^2)*sin(PI*x) \n");
+	double koef; // Коэффициент
+
+	printf("y'' = ((-1)*((G*time[i] * time[i]) / 2)) + C1*time[i] + C2; \n");
 
 	printf("Введите количество сегментов: ");
 	scanf_s("%d", &s);
@@ -38,6 +41,9 @@ void main() {
 
 	cout << endl << "Введите y(" << a << ") (значение высоты): ";
 	cin >> y[0]; // Значение функции y(a) или высота H
+
+	cout << endl << "Введите коэффициент: ";
+	cin >> koef;
 	
 	double *time = new double[n];
 
@@ -63,7 +69,7 @@ void main() {
 
 		if (i == 0)
 		{
-			f[i] = (G * (-1)) - (y[0] / (h*h));
+			f[i] = (G * (-1)) - (y[0] / (h*h))  + ( (koef*y[0] )/(2*h) );
 		}
 	}
 
@@ -74,8 +80,8 @@ void main() {
 	}
 
 	printf("Заполнение матрицы . . . \n");
-	FillMatrix(A, f, h, N);
-	OutputDescMatr(A, N, M);
+	FillMatrix(A, f, h, N, koef);
+	//OutputDescMatr(A, N, M);
 
 	double *yy = new double[k];
 
@@ -125,5 +131,5 @@ void main() {
 	fout << "data = '" << j << "';"; // запись строки в файл
 	fout.close(); // закрываем файл
 
-	cout << j;
+	//cout << j;
 }

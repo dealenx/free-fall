@@ -76,7 +76,8 @@ void FillMatrix( /* Заполнение матрицы */
 	double **M, //Матрица
 	double *f, //заполнения массива f(i)
 	double h, // Шаг
-	int N
+	int N,
+	double koef // коэффициент
 )
 {
 	for (int i = 0; i < N; i++)
@@ -91,11 +92,11 @@ void FillMatrix( /* Заполнение матрицы */
 			}
 			else if (j == i + 1)
 			{
-				M[i][j] = (1 / (h*h));
+				M[i][j] = (1 / (h*h)) + (koef / (2 * h));
 			}
 			else if (i == j + 1)
 			{
-				M[i][j] = (1 / (h*h));
+				M[i][j] = (1 / (h*h)) - (koef / (2 * h));
 			}
 			else {
 				M[i][j] = 0;
@@ -108,16 +109,4 @@ void FillMatrix( /* Заполнение матрицы */
 	{
 		M[i][N] = f[i];
 	}
-}
-
-void GeneralFunc
-(	
-	double a, // Левая граница
-	double b, // Правая граница
-	double yFirst,  // Значение функции y(a)
-	double yLast, // Значение функции y(b)
-	 int s // Количество сегментов
-)
-{
-	
 }

@@ -23,7 +23,8 @@ void FillMatrix(
 	double **M, 
 	double *f, 
 	double h, 
-	int N
+	int N,
+	double koef // коэффициент
 );
 void GeneralFunc
 (
