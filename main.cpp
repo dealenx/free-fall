@@ -29,9 +29,15 @@ void main() {
 
 	long int n = s + 1; // Количество всех точек, включая границы
 
-	double *y = new double[n];
+	double *y_full = new double[n]; // полный y(численное решение)-вектор
+	double *y_forMatrix = new double[k]; // y(численное решение)-вектор для умножения матрицы
 
-	y[s] = 0; // Значение функции y(b) или когда тело уже упало на землю
+
+	double *yt_full = new double[n];  // полный y(точное решение)-вектор
+	double *yt_forMatrix = new double[k];  // y(точное решение)-вектор для матрицы
+	double *approx = new double[k]; // Для аппроксимации
+
+	y_full[s] = 0; // Значение функции y(b) или когда тело уже упало на землю
 
 
 	cout << "Введите время: ";
@@ -40,7 +46,7 @@ void main() {
 	double h = (T - a) / s; // Шаг
 
 	cout << endl << "Введите y(" << a << ") (значение высоты): ";
-	cin >> y[0]; // Значение функции y(a) или высота H
+	cin >> y_full[0]; // Значение функции y(a) или высота H
 
 	cout << endl << "Введите коэффициент: ";
 	cin >> koef;
@@ -69,7 +75,7 @@ void main() {
 
 		if (i == 0)
 		{
-			f[i] = (G * (-1)) - (y[0] / (h*h))  + ( (koef*y[0] )/(2*h) );
+			f[i] = (G * (-1)) - (y_full[0] / (h*h))  + ( (koef*y_full[0] )/(2*h) );
 		}
 	}
 
@@ -81,26 +87,26 @@ void main() {
 
 	printf("Заполнение матрицы . . . \n");
 	FillMatrix(A, f, h, N, koef);
-	//OutputDescMatr(A, N, M);
-
-	double *yy = new double[k];
+	OutputDescMatr(A, N, M);
 
 	printf("Решение метода Гаусса . . . \n");
-	Solve(A, yy, N);
+	Solve(A, y_forMatrix, N);
 
 	for (int i = 0; i < k; i++)
 	{
-		y[i + 1] = yy[i];
+		y_full[i + 1] = y_forMatrix[i];
 	}
 
-	double C1 = (((G*T*T) / 2) - y[0]) / T;
-	double C2 = y[0];
-
-	double *yt = new double[n]; // Теоритическая 'y'
+	double C1 = (((G*T*T) / 2) - y_full[0]) / T;
+	double C2 = y_full[0];
 
 	for (int i = 0; i < n; i++)
 	{
-		yt[i] = ((-1)*((G*time[i] * time[i]) / 2)) + C1*time[i] + C2;
+		yt_full[i] = ((-1)*((G*time[i] * time[i]) / 2)) + C1*time[i] + C2;
+	}
+	for (int i = 0; i < k; i++)
+	{
+		yt_forMatrix[i] = yt_full[i + 1];
 	}
 
 	cout << endl;
@@ -108,22 +114,27 @@ void main() {
 
 	for (int i = 0; i < n; i++)
 	{
-		yDelta[i] = abs(abs(y[i]) - abs(yt[i]));
+		yDelta[i] = abs(abs(y_full[i]) - abs(yt_full[i]));
 	}
 	cout << endl;
-	printf("\n Шаг: %lf , Дельта 'y' максимальное: %lf \n", h, MaxVector(yDelta, n));
+	printf("\n Шаг: %lf , практическая погрешность (только при коэффициенте равным 0): %lf \n", h, MaxVector(yDelta, n));
 
 	for (int i = 0; i < n; i++)
 	{
-		cout << "y[" << time[i] << "] = " << y[i] << " " << "yt[" << time[i] << "] = " << yt[i] << " ";
-	}
+		cout << "y[" << time[i] << "] = " << y_full[i] << "\t" << "yt[" << time[i] << "] = " << yt_full[i] << endl;
+	} cout << endl;
+
+	cout << endl << "Проверка численного решения" << endl;
+	checkFillMatrix(A, y_forMatrix, f, approx, N);
+	cout << endl << "Проверка точного решения (только при коэффициенте равным 0)" << endl;
+	checkFillMatrix(A, yt_forMatrix, f, approx, N); cout << endl;
 
 
 	for (int i = 0; i < n; i++)
 	{
 		j["time"][i] = time[i];
-		j["y"][i] = y[i];
-		j["yt"][i] = yt[i];
+		j["y"][i] = y_full[i];
+		j["yt"][i] = yt_full[i];
 	}
 
 

@@ -26,11 +26,6 @@ void FillMatrix(
 	int N,
 	double koef // коэффициент
 );
-void GeneralFunc
-(
-	double a, // Левая граница
-	double b, // Правая граница
-	double yFirst,  // Значение функции y(a)
-	double yLast, // Значение функции y(b)
-	int s // Количество сегментов
-);
+
+void calcMultMatrixVectore(double **A, double *B, double *C, int N, int M);
+void checkFillMatrix(double **A, double *y, double *f, double * approx, int N);

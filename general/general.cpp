@@ -110,3 +110,24 @@ void FillMatrix( /* Заполнение матрицы */
 		M[i][N] = f[i];
 	}
 }
+void calcMultMatrixVectore(double **A, double *B, double *C, int N, int M) {
+
+	for (int ix = 0; ix < N; ix++)
+	{
+		C[ix] = 0;
+		for (int jx = 0; jx < M; jx++)
+			C[ix] += A[ix][jx] * B[jx];
+	}
+}
+
+void checkFillMatrix(double **A, double *y, double *f, double * result, int N) {
+
+	double *C = new double[N]; // вектор, результатом где является матрица умноженная на точное решение
+	calcMultMatrixVectore(A, y, C, N, N);
+	for (int i = 0; i < N; i++)
+	{
+		result[i] = fabs(C[i] - f[i]);
+		cout << "A*y( " << C[i] << " ) -  f ( " << f[i] << ") = result( " << result[i] << " ) " << endl;
+	}
+
+}
