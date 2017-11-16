@@ -87,7 +87,7 @@ void main() {
 
 	printf("Заполнение матрицы . . . \n");
 	FillMatrix(A, f, h, N, koef);
-	OutputDescMatr(A, N, M);
+	//OutputDescMatr(A, N, M);
 
 	printf("Решение метода Гаусса . . . \n");
 	Solve(A, y_forMatrix, N);
@@ -116,18 +116,20 @@ void main() {
 	{
 		yDelta[i] = abs(abs(y_full[i]) - abs(yt_full[i]));
 	}
-	cout << endl;
+
 	printf("\n Шаг: %lf , практическая погрешность (только при коэффициенте равным 0): %lf \n", h, MaxVector(yDelta, n));
 
-	for (int i = 0; i < n; i++)
+	/*for (int i = 0; i < n; i++)
 	{
 		cout << "y[" << time[i] << "] = " << y_full[i] << "\t" << "yt[" << time[i] << "] = " << yt_full[i] << endl;
-	} cout << endl;
+	} cout << endl;*/
 
 	cout << endl << "Проверка численного решения" << endl;
 	checkFillMatrix(A, y_forMatrix, f, approx, N);
-	cout << endl << "Проверка точного решения (только при коэффициенте равным 0)" << endl;
-	checkFillMatrix(A, yt_forMatrix, f, approx, N); cout << endl;
+	double max_approx = MaxVectorAbs(approx, k);
+	cout << endl << "Аппроксимация ( max|Ау-f| ): " << max_approx << endl;
+	/*cout << endl << "Проверка точного решения (только при коэффициенте равным 0)" << endl;
+	checkFillMatrix(A, yt_forMatrix, f, approx, N); cout << endl;*/
 
 
 	for (int i = 0; i < n; i++)

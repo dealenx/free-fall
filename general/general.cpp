@@ -16,6 +16,20 @@ double MaxVector(double *y, int length)
 
 	return max;
 }
+double MaxVectorAbs(double *y, int length)
+{
+	double max = abs(y[0]);
+
+	for (int i = 1; i < length; i++)
+	{
+		if (max < abs(y[i]))
+		{
+			max = abs(y[i]);
+		}
+	}
+
+	return max;
+}
 
 void triangMatr(double** A, double **B, int N)
 {
@@ -127,7 +141,7 @@ void checkFillMatrix(double **A, double *y, double *f, double * result, int N) {
 	for (int i = 0; i < N; i++)
 	{
 		result[i] = fabs(C[i] - f[i]);
-		cout << "A*y( " << C[i] << " ) -  f ( " << f[i] << ") = result( " << result[i] << " ) " << endl;
+		//cout << "A*y( " << C[i] << " ) -  f ( " << f[i] << ") = result( " << result[i] << " ) " << endl;
 	}
 
 }
